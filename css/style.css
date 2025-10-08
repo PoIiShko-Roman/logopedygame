@@ -1,0 +1,100 @@
+/* Загальні стилі для всієї сторінки */
+body {
+    font-family: Arial, sans-serif; /* Приємний шрифт без засічок */
+    margin: 0;                       /* Прибираємо стандартні відступи */
+    background-color: #f0f8ff;       /* Світло-блакитний фон */
+    color: #333;                     /* Темно-сірий колір тексту */
+}
+
+/* Обмежуємо ширину контенту і центруємо його */
+.container {
+    max-width: 1200px;
+    margin: 0 auto; /* Автоматичні відступи з боків центрують блок */
+    padding: 0 20px;  /* Невеликі відступи по боках */
+}
+
+/* Стилі для шапки сайту */
+.header {
+    background-color: #fff;
+    padding: 15px 0;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1); /* Легка тінь */
+}
+
+.header .container {
+    display: flex; /* Розташовуємо лого та меню в один рядок */
+    justify-content: space-between; /* Розносимо їх по краях */
+    align-items: center; /* Вирівнюємо по центру вертикально */
+}
+
+.logo {
+    font-size: 24px;
+    font-weight: bold;
+    text-decoration: none;
+    color: #4682B4; /* Сталевий синій колір */
+}
+
+/* Стилі для меню навігації */
+.navigation ul {
+    margin: 0;
+    padding: 0;
+    list-style: none; /* Прибираємо маркери списку */
+}
+
+.navigation ul li {
+    display: inline-block; /* Робимо пункти меню в один рядок */
+    margin-left: 20px;
+}
+
+.navigation a {
+    text-decoration: none;
+    color: #333;
+    font-size: 18px;
+}
+
+/* Стилі для головного контенту */
+.main {
+    padding: 40px 0;
+    text-align: center; /* Центруємо заголовок */
+}
+
+/* Сітка для ігор */
+.games-grid {
+    display: grid;
+    /* Створюємо 3 колонки однакової ширини */
+    grid-template-columns: repeat(3, 1fr); 
+    gap: 30px; /* Відстань між картками */
+    margin-top: 40px;
+}
+
+/* Стилі для картки гри */
+.game-card {
+    background-color: #fff;
+    border-radius: 10px; /* Закруглені кути */
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    transition: transform 0.3s; /* Плавна анімація при наведенні */
+}
+
+.game-card:hover {
+    transform: translateY(-10px); /* Картка трохи підніметься */
+}
+
+.game-card img {
+    max-width: 100px; /* Обмежуємо розмір іконки */
+    height: auto;
+}
+
+.game-card h3 {
+    margin: 15px 0 10px;
+    color: #4682B4;
+}
+
+/* Стилі для підвалу */
+.footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: 40px;
+    background-color: #fff;
+    border-top: 1px solid #ddd;
+}
