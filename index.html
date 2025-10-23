@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Логопедичні ігри - Головна</title>
+    
+    <link rel="icon" type="image/png" href="image/logo.png">
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Підключення фінальних стилів -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <header class="floating-box">
+        <!-- .site-title тепер також має клас .active-page 
+             на головній сторінці -->
+        <a href="index.html" class="site-title active-page">Логопедичні ігри</a>
+
+        <nav id="main-nav">
+            <!-- .nav-link також має клас .active-page -->
+            <a href="index.html" class="nav-link active-page">Вправи</a>
+            <a href="about.html" class="nav-link">Про сайт</a>
+        </nav>
+
+        <button id="menu-toggle" class="menu-toggle" aria-label="Відкрити меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <main>
+        <!-- Секція з іконками ігор -->
+        <section class="game-grid-section floating-box">
+            <div class="game-grid-container" id="game-grid">
+                <!-- 
+                  Картки ігор. JS буде додавати клас .active до обраної.
+                  Додано запасні зображення (onerror) на випадок, 
+                  якщо основне не завантажиться.
+                -->
+                <div class="game-card" data-game-id="1">
+                    <img src="image/game1.png" 
+                         alt="Гра 1" 
+                         draggable="false"
+                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+1'">
+                    <h3>Гра 1: Потяг</h3>
+                </div>
+                <div class="game-card" data-game-id="2">
+                    <img src="image/game2.png" 
+                         alt="Гра 2" 
+                         draggable="false"
+                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+2'">
+                    <h3>Гра 2: Склад</h3>
+                </div>
+                <div class="game-card" data-game-id="3">
+                    <img src="image/game3.png" 
+                         alt="Гра 3" 
+                         draggable="false"
+                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+3'">
+                    <h3>Гра 3: Тварини</h3>
+                </div>
+                <div class="game-card" data-game-id="4">
+                    <img src="image/game4.png" 
+                         alt="Гра 4" 
+                         draggable="false"
+                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+4'">
+                    <h3>Гра 4: Звуки</h3>
+                </div>
+                <div class="game-card" data-game-id="5">
+                    <img src="image/game5.png" 
+                         alt="Гра 5" 
+                         draggable="false"
+                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+5'">
+                    <h3>Гра 5: Щелепа</h3>
+                </div>
+            </div>
+        </section>
+
+        <!-- Секція з описом гри -->
+        <section class="game-description-section floating-box">
+            <div id="game-description-box" class="game-description-box">
+                <!-- Блок для основного опису (h2, p) -->
+                <div id="game-description-text" class="game-description-text">
+                    <h2 id="game-title">Оберіть гру</h2>
+                    <p id="game-subtitle">Натисніть на іконку гри, щоб побачити її опис та налаштування.</p>
+                </div>
+                
+                <!-- 
+                  Обгортка для опцій. 
+                  Сюди JS буде динамічно додавати рядки опцій.
+                -->
+                <div id="game-options-wrapper" class="game-options-wrapper">
+                    <!-- Напр., JS згенерує тут:
+                    <div class="game-options-row">
+                        <span class="game-options-text">Одяг:</span>
+                        <div class="game-options-buttons">
+                            <a href="game1.html" class="letter-btn">Ш</a>
+                            ...
+                        </div>
+                    </div> 
+                    -->
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="floating-box">
+        <div class="footer-content">
+            © 2025 Логопедичні ігри. Всі права захищено.
+        </div>
+    </footer>
+
+    <!-- Підключення фінального скрипту -->
+    <script src="js/script.js"></script>
+</body>
+</html>

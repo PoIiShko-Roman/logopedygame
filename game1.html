@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Гра 1 - Логопедичні ігри</title>
+
+    <link rel="icon" type="image/png" href="image/logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <!-- Підключення фінальних стилів -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    
+    <header class="floating-box">
+        <!-- Посилання .site-title має клас .active-page, 
+             оскільки ігри є частиною розділу "Вправи" -->
+        <a href="index.html" class="site-title active-page">Логопедичні ігри</a>
+
+        <nav id="main-nav">
+            <!-- Посилання "Вправи" також .active-page -->
+            <a href="index.html" class="nav-link active-page">Вправи</a>
+            <a href="about.html" class="nav-link">Про сайт</a>
+        </nav>
+
+        <button id="menu-toggle" class="menu-toggle" aria-label="Відкрити меню">
+            <span></span>
+            <span></span>
+            <span></span>
+        </button>
+    </header>
+
+    <main>
+        <!-- Це заглушка. Сюди ви додасте контент самої гри. -->
+        <section class="content-section floating-box">
+            <h1>Гра 1: Потяг</h1>
+            <p>
+                Тут буде основний контент для "Гри 1".
+            </p>
+            <p>
+                Ви можете додати сюди `<canvas>` або іншу інтерактивну логіку.
+            </p>
+        </section>
+    </main>
+
+    <footer class="floating-box">
+        <div class="footer-content">
+            © 2025 Логопедичні ігри. Всі права захищено.
+        </div>
+    </footer>
+
+    <!-- 
+      Підключення фінального скрипту (для хедера).
+      Ви можете додати окремий скрипт для логіки гри
+      (напр., <script src="js/game1_logic.js"></script>)
+    -->
+    <script src="js/script.js"></script>
+</body>
+</html>
+
