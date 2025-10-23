@@ -1,0 +1,355 @@
+/* :root - Змінні CSS (кольори) */
+:root {
+    --main-yellow: #FFD700;
+    --dark-black: #1a1a1a;
+    --text-black: #333;
+}
+
+/* * - Скидання відступів браузера */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Базові стилі <body> */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--main-yellow);
+    color: var(--text-black);
+    overflow-x: hidden; 
+}
+
+/* === СТИЛІ ХЕДЕРА === */
+header {
+    position: sticky; 
+    top: 16px;
+    z-index: 50;
+    background-color: var(--dark-black);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 16px 32px;
+    border-radius: 16px;
+    margin: 16px auto;
+    width: calc(100% - 32px);
+    max-width: 1280px;
+    position: relative;
+}
+
+.header-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.site-title {
+    color: var(--main-yellow);
+    font-size: 1.75rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.3s ease, color 0.3s ease;
+    display: inline-block;
+}
+
+.site-title:hover {
+    transform: scale(1.03);
+    color: #ffffff;
+}
+
+.nav-link {
+    display: inline-block;
+    padding: 8px 16px;
+    border: 2px solid var(--main-yellow);
+    color: var(--main-yellow);
+    border-radius: 50px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    margin-left: 12px;
+    background-color: transparent;
+}
+
+.nav-link:hover {
+    background-color: transparent;
+    color: #ffffff;
+    border-color: #ffffff;
+    transform: scale(1.03);
+}
+
+.nav-link.active {
+    background-color: var(--main-yellow);
+    color: var(--dark-black);
+    border-color: var(--main-yellow);
+    transform: scale(1.03);
+}
+
+/* === СТИЛІ МОБІЛЬНОГО МЕНЮ === */
+.menu-toggle {
+    display: none; 
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 8px;
+    z-index: 101;
+}
+
+.menu-toggle .bar {
+    display: block;
+    width: 25px;
+    height: 3px;
+    background-color: var(--main-yellow);
+    margin: 5px 0;
+    transition: all 0.3s ease;
+}
+
+.menu-toggle.is-active .bar:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 6px);
+}
+.menu-toggle.is-active .bar:nth-child(2) {
+    opacity: 0;
+}
+.menu-toggle.is-active .bar:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -6px);
+}
+
+/* === СТИЛІ СЛАЙДЕРА (index.html) === */
+.game-slider {
+    position: relative;
+    width: 90%;
+    max-width: 1000px;
+    margin: 48px auto 0 auto;
+    padding: 0 64px;
+}
+
+.slider-viewport {
+    width: 100%;
+    overflow: hidden; 
+}
+
+.slider-track {
+    display: flex;
+}
+
+.game-card {
+    flex: 0 0 calc(100% / 3 - 24px); 
+    margin: 0 12px;
+    aspect-ratio: 1 / 1; 
+    background-color: var(--dark-black);
+    color: var(--main-yellow);
+    border: 2px solid var(--main-yellow);
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.5rem;
+    font-weight: 700;
+    transform: scale(0.85); 
+    opacity: 0.6;
+    transition: transform 0.5s ease, opacity 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+    cursor: pointer;
+    user-select: none;
+}
+
+.no-transition {
+    transition: none !important;
+}
+
+.game-card:not(.active):hover {
+    transform: scale(0.9);
+    opacity: 0.8;
+}
+
+.game-card.active {
+    transform: scale(1);
+    opacity: 1;
+    border-color: #ffffff;
+    box-shadow: 0 4px 16px rgba(255, 255, 255, 0.3);
+}
+
+.slider-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: transparent;
+    color: var(--dark-black); 
+    border: 2px solid var(--dark-black); 
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 700; 
+    cursor: pointer;
+    transition: all 0.3s ease;
+    z-index: 10;
+}
+
+.slider-btn:hover {
+    color: #ffffff;
+    border-color: #ffffff;
+    background-color: var(--dark-black); 
+    transform: translateY(-50%) scale(1.05);
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.3);
+}
+
+.slider-btn.prev { left: 0px; }
+.slider-btn.next { right: 0px; }
+
+/* Секція для опису гри */
+.description-section {
+    width: 90%;
+    max-width: 800px;
+    margin: 24px auto 0 auto;
+    padding: 24px;
+    background-color: rgba(26, 26, 26, 0.05);
+    border: 1px solid var(--dark-black);
+    border-radius: 16px;
+    text-align: center;
+    transition: all 0.5s ease;
+}
+.description-section h2 {
+    font-size: 1.75rem;
+    margin-bottom: 8px;
+}
+.description-section p {
+    font-size: 1.1rem;
+}
+
+/* === СТИЛІ СТОРІНКИ "ПРО САЙТ" (about.html) === */
+.about-section {
+    padding: 48px 16px;
+    min-height: 70vh;
+}
+.about-container {
+    max-width: 960px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.1);
+    border: 1px solid var(--dark-black);
+    padding: 32px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+.about-container h1,
+.about-container h2 {
+    margin-bottom: 16px;
+    border-bottom: 2px solid var(--text-black);
+    padding-bottom: 8px;
+}
+.about-container h1 { font-size: 2.25rem; }
+.about-container h2 { font-size: 1.75rem; margin-top: 32px; }
+.about-container p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 16px; }
+
+.social-links {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    flex-wrap: wrap; /* Перенос кнопок на моб. */
+}
+.social-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--dark-black);
+    color: var(--main-yellow);
+    border: 2px solid var(--dark-black);
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+.social-link:hover {
+    background-color: var(--main-yellow);
+    color: var(--dark-black);
+}
+
+/* === СТИЛІ ФУТЕРА (Підвалу) === */
+footer {
+    background-color: var(--dark-black);
+    color: #aaa;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    padding: 24px 32px;
+    border-radius: 16px;
+    margin: 48px auto 16px auto; 
+    width: calc(100% - 32px);
+    max-width: 1280px;
+}
+.footer-content {
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* === АДАПТИВНІСТЬ === */
+
+/* Екрани 900px або менше (Планшети) */
+@media (max-width: 900px) {
+    .game-card {
+        flex: 0 0 calc(100% - 48px);
+    }
+}
+
+/* Екрани 768px або менше (Моб. меню) */
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block; /* Показуємо бургер */
+    }
+
+    nav#main-nav {
+        display: none; 
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        width: 100%;
+        background-color: var(--dark-black);
+        border-radius: 12px;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        flex-direction: column;
+        align-items: center;
+        padding: 24px;
+        z-index: 100;
+    }
+
+    nav#main-nav.nav-active {
+        display: flex; 
+    }
+
+    .nav-link {
+        width: 100%;
+        text-align: center;
+        margin-left: 0;
+        margin-bottom: 16px;
+    }
+    .nav-link:last-child { margin-bottom: 0; }
+    header { padding: 16px; }
+}
+
+/* Екрани 600px або менше (Моб. слайдер) */
+@media (max-width: 600px) {
+    .game-slider {
+        width: 100%;
+        padding: 0 48px;
+    }
+    .slider-viewport {
+        width: 100%;
+        margin: 0 auto;
+    }
+    .game-card {
+        flex: 0 0 100%;
+        margin: 0;
+        border-radius: 12px;
+    }
+    .slider-btn {
+        width: 36px;
+        height: 36px;
+        font-size: 1.2rem;
+    }
+    .slider-btn.prev { left: 5px; }
+    .slider-btn.next { right: 5px; }
+
+    .game-slider {
+        padding: 0 40px; 
+    }
+}
