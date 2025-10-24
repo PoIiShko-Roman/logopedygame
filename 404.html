@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Гра 1 - Логопедичні ігри</title>
+    <title>Сторінку не знайдено (404) - Логопедичні ігри</title>
     <link rel="icon" type="image/png" href="image/logo.png">
     
     <!-- Підключення шрифту -->
@@ -18,14 +18,13 @@
     
     <!-- 
       ЗОНА: ХЕДЕР (Шапка)
-      Клас '.active-page' стоїть на "Вправи", 
-      оскільки гра є частиною цього розділу.
+      Той самий хедер. Жодна кнопка не '.active-page'.
     -->
     <header class="floating-box">
-        <a href="index.html" class="site-title active-page">Логопедичні ігри</a>
+        <a href="index.html" class="site-title">Логопедичні ігри</a>
 
         <nav id="main-nav">
-            <a href="index.html" class="nav-link active-page">Вправи</a>
+            <a href="index.html" class="nav-link">Вправи</a>
             <a href="about.html" class="nav-link">Про сайт</a>
         </nav>
 
@@ -37,15 +36,25 @@
     </header>
 
     <!-- 
-      ЗОНА: Основний контент (Заглушка)
-      Сюди буде додано унікальний HTML/Canvas для самої гри.
+      ЗОНА: Основний контент (статичний)
+      Сторінка помилки, яку покаже сервер, якщо адреса не існує.
     -->
     <main>
         <section class="content-section floating-box">
-            <h1>Гра 1: Потяг</h1>
+            <h1>Помилка 404</h1>
             <p>
-                Тут буде основний контент для "Гри 1".
+                На жаль, сторінку, яку ви шукали, не знайдено.
             </p>
+            <p>
+                Можливо, ви ввели неправильну адресу, або сторінку було переміщено. Спробуйте повернутися на головну сторінку.
+            </p>
+            
+            <div class="social-links">
+                <!-- Кнопка повернення на 'index.html' -->
+                <a href="index.html" class="social-link" style="background-color: var(--main-yellow); color: var(--dark-black); border-color: var(--dark-black);">
+                    На Головну
+                </a>
+            </div>
         </section>
     </main>
 
@@ -58,11 +67,5 @@
 
     <!-- ЗВ'ЯЗОК №2: JavaScript ('js/script.js') (для бургер-меню) -->
     <script src="js/script.js"></script>
-    
-    <!-- 
-      РЕКОМЕНДАЦІЯ:
-      Для логіки самої гри, створіть окремий файл
-      (напр., 'js/game1_logic.js') і підключіть його тут.
-    -->
 </body>
 </html>

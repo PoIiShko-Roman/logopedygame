@@ -4,25 +4,28 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Про сайт - Логопедичні ігри</title>
-
     <link rel="icon" type="image/png" href="image/logo.png">
-
+    
+    <!-- Підключення шрифту -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 
-    <!-- Підключення фінальних стилів -->
+    <!-- ЗВ'ЯЗОК №1: CSS ('css/style.css') -->
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     
+    <!-- 
+      ЗОНА: ХЕДЕР (Шапка)
+      Той самий хедер. Змінено клас '.active-page' на "Про сайт".
+    -->
     <header class="floating-box">
-        <!-- Посилання .site-title не має .active-page тут -->
+        <!-- ЗВ'ЯЗОК: 'index.html' (повернення на Головну) -->
         <a href="index.html" class="site-title">Логопедичні ігри</a>
 
         <nav id="main-nav">
             <a href="index.html" class="nav-link">Вправи</a>
-            <!-- .nav-link для "Про сайт" тепер .active-page -->
             <a href="about.html" class="nav-link active-page">Про сайт</a>
         </nav>
 
@@ -33,6 +36,10 @@
         </button>
     </header>
 
+    <!-- 
+      ЗОНА: Основний контент (статичний)
+      Стилізується класом '.content-section' з 'css/style.css'.
+    -->
     <main>
         <section class="content-section floating-box">
             <h1>Про наш сайт</h1>
@@ -61,13 +68,18 @@
         </section>
     </main>
 
+    <!-- ЗОНА: ФУТЕР (спільний) -->
     <footer class="floating-box">
         <div class="footer-content">
             © 2025 Логопедичні ігри. Всі права захищено.
         </div>
     </footer>
 
-    <!-- Підключення фінального скрипту -->
+    <!-- 
+      ЗВ'ЯЗОК №2: JavaScript ('js/script.js')
+      Підключається для роботи бургер-меню. 
+      Логіка ігор на цій сторінці не активується.
+    -->
     <script src="js/script.js"></script>
 </body>
 </html>
