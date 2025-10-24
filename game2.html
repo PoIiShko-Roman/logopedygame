@@ -6,16 +6,17 @@
     <title>Гра 2 - Логопедичні ігри</title>
     <link rel="icon" type="image/png" href="image/logo.png">
     
-    <!-- Підключення шрифту -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
-    <!-- ЗВ'ЯЗОК: 'css/style.css' -->
+    <!-- Головні стилі -->
     <link rel="stylesheet" href="css/style.css">
+    <!-- Унікальні стилі ТІЛЬКИ для "Гри 2" (зараз порожній) -->
+    <link rel="stylesheet" href="css/game2.css">
 </head>
 <body>
-    <!-- ЗОНА: ХЕДЕР (спільний) -->
+    
     <header class="floating-box">
         <a href="index.html" class="site-title active-page">Логопедичні ігри</a>
         <nav id="main-nav">
@@ -23,24 +24,31 @@
             <a href="about.html" class="nav-link">Про сайт</a>
         </nav>
         <button id="menu-toggle" class="menu-toggle" aria-label="Відкрити меню">
-            <span></span><span></span><span></span>
+            <span></span>
+            <span></span>
+            <span></span>
         </button>
     </header>
-
-    <!-- ЗОНА: Основний контент (Заглушка) -->
+    
     <main>
-        <section class="content-section floating-box">
+        <section class="content-section floating-box" id="game-wrapper">
             <h1>Гра 2: Склад</h1>
-            <p>Тут буде основний контент для "Гри 2".</p>
+            
+            <div id="game-container">
+                <p>Завантаження гри...</p>
+            </div>
+
         </section>
     </main>
-
-    <!-- ЗОНА: ФУТЕР (спільний) -->
+    
     <footer class="floating-box">
-        <div class="footer-content">© 2025 Логопедичні ігри. Всі права захищено.</div>
+        <div class="footer-content">
+            © 2025 Логопедичні ігри. Всі права захищено.
+        </div>
     </footer>
     
-    <!-- ЗВ'ЯЗОК: 'js/script.js' (для бургер-меню) -->
-    <script src="js/script.js"></script>
+    <!-- Скрипти для цієї сторінки -->
+    <script src="js/main.js"></script> <!-- Глобальний скрипт (меню) -->
+    <script src="js/game2.js"></script> <!-- Унікальна логіка "Гри 2" -->
 </body>
 </html>

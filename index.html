@@ -9,19 +9,18 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-
+    
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     
     <header class="floating-box">
+        <!-- ... (Хедер без змін) ... -->
         <a href="index.html" class="site-title active-page">Логопедичні ігри</a>
-
         <nav id="main-nav">
             <a href="index.html" class="nav-link active-page">Вправи</a>
             <a href="about.html" class="nav-link">Про сайт</a>
         </nav>
-
         <button id="menu-toggle" class="menu-toggle" aria-label="Відкрити меню">
             <span></span>
             <span></span>
@@ -30,14 +29,16 @@
     </header>
 
     <main>
+        <!-- ... (Сітка ігор без змін) ... -->
         <section class="game-grid-section floating-box">
-            <div class="game-grid-container" id="game-grid">
+             <div class="game-grid-container" id="game-grid">
                 <div class="game-card" data-game-id="1">
                     <img src="image/game1.png" alt="Гра 1" draggable="false"
                          onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+1'">
                     <h3>Гра 1: Потяг</h3>
                 </div>
-                <div class="game-card" data-game-id="2">
+                <!-- ... (інші картки) ... -->
+                 <div class="game-card" data-game-id="2">
                     <img src="image/game2.png" alt="Гра 2" draggable="false"
                          onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+2'">
                     <h3>Гра 2: Склад</h3>
@@ -59,7 +60,8 @@
                 </div>
             </div>
         </section>
-
+        
+        <!-- ... (Блок опису без змін) ... -->
         <section class="game-description-section floating-box">
             <div id="game-description-box" class="game-description-box">
                 <div id="game-description-text" class="game-description-text">
@@ -68,17 +70,30 @@
                 </div>
                 
                 <div id="game-options-wrapper" class="game-options-wrapper">
-                    </div>
+                    <!-- Генерується через JS -->
+                </div>
             </div>
         </section>
     </main>
 
     <footer class="floating-box">
-        <div class="footer-content">
+        <!-- ... (Футер без змін) ... -->
+         <div class="footer-content">
             © 2025 Логопедичні ігри. Всі права захищено.
         </div>
     </footer>
-
-    <script src="js/script.js"></script>
+    
+    <!-- 
+      ОПТИМІЗАЦІЯ:
+      1. main.js - Глобальний скрипт (меню).
+      2. game-data.js - (НОВИЙ) Окремий файл з даними про ігри.
+      3. index-logic.js - Логіка, що читає дані з game-data.js.
+      
+      Порядок ВАЖЛИВИЙ: game-data.js має бути ПЕРЕД index-logic.js
+    -->
+    <script src="js/main.js"></script>
+    <script src="js/game-data.js"></script> <!-- <<< НОВИЙ ФАЙЛ ДАНИХ -->
+    <script src="js/index-logic.js"></script> 
 </body>
 </html>
+
