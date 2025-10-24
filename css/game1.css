@@ -1,9 +1,436 @@
 /* ФАЙЛ: css/game1.css
- * ПРИЗНАЧЕННЯ: Унікальні стилі ТІЛЬКИ для "Гри 1" (game1.html).
- *
- * КОДУ ПОКИ ЩО НЕМАЄ.
- *
- * Сюди ви можете додавати стилі, наприклад, для 
- * ігрового поля (canvas), карток, анімацій потяга тощо,
- * і вони не будуть заважати іншим сторінкам.
- */
+  ОПИС: Стилі виключно для "Гри 1".
+          Оформлення ігрового поля, вагонів, слотів, кабіни,
+          станів (перетягування, блокування), а також нових
+          етапів: запитань та перевірки пам'яті.
+*/
+
+/* --- Головний контейнер гри --- */
+.game-container {
+    background-color: var(--dark-black);
+    color: var(--light-gray);
+    padding: 24px;
+    border-radius: 16px;
+    position: relative; /* Для позиціонування кнопок і оверлея */
+    display: flex;
+    flex-direction: column;
+    min-height: 70vh; /* Мінімальна висота */
+    overflow: hidden; /* Важливо для оверлея */
+}
+
+/* Кнопка "Назад" */
+.back-button {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    width: 44px;
+    height: 44px;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--main-yellow);
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    z-index: 1010; /* Бути над оверлеєм */
+}
+.back-button:hover {
+    background-color: var(--main-yellow);
+    color: var(--dark-black);
+    transform: scale(1.1);
+}
+.back-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+/* Індикатор статусу гри */
+.game-indicator {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 4px solid var(--white);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    z-index: 1010; /* Бути над оверлеєм */
+}
+.game-indicator.grey {
+    background-color: #777;
+    box-shadow: 0 0 10px #777;
+}
+.game-indicator.red {
+    background-color: #E74C3C;
+    box-shadow: 0 0 20px #E74C3C;
+}
+.game-indicator.green {
+    background-color: #2ECC71;
+    box-shadow: 0 0 20px #2ECC71;
+}
+
+/* --- Ігрове поле --- */
+.game-board {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1; /* Займає весь вільний простір */
+    position: relative; /* Важливо для Interact.js */
+    overflow: hidden; /* Запобігає виходу за межі */
+    margin-top: 40px; /* Відступ від кнопок */
+    min-height: 500px; /* Мінімальна висота для гри */
+    -webkit-touch-callout: none; /* Заборона виклику меню на iOS */
+}
+
+/* Повідомлення-інструкція до гри */
+.game-message {
+    text-align: center;
+    font-size: 1.2rem;
+    color: var(--main-yellow);
+    padding: 10px;
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 12px;
+    margin: 10px auto;
+    width: 90%;
+    max-width: 600px;
+    z-index: 5; /* Над зоною спавну */
+    position: relative; /* Щоб z-index працював */
+    transition: opacity 0.3s ease;
+}
+
+/* --- Зона спавну та потяг --- */
+
+/* 1. Зона спавну (куди кидаємо вагони) */
+.wagon-spawn-area {
+    width: 100%;
+    height: 60%; /* Займає 60% висоти .game-board */
+    min-height: 300px;
+    position: absolute;
+    top: 60px; /* Відступ від інструкції */
+    left: 0;
+    right: 0;
+    transition: opacity 0.3s ease;
+    /* background-color: rgba(255, 0, 0, 0.1); - для дебагу */
+}
+
+/* 2. Зона потягу (рейки, кабіна, слоти) */
+.train-area {
+    width: 100%;
+    height: 40%; /* Займає 40% висоти .game-board */
+    min-height: 150px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-end;
+    gap: 10px;
+    padding: 20px;
+    border-radius: 12px;
+    /* Рейки (імітація) */
+    border-top: 4px solid #777;
+    border-bottom: 4px solid #777;
+    background-color: rgba(0, 0, 0, 0.2);
+    transition: opacity 0.3s ease;
+}
+
+.train-cabin {
+    flex-shrink: 0; /* Кабіна не стискається */
+    width: 100px;
+    height: 100px;
+    position: relative; /* Для позиціонування літери */
+}
+.train-cabin img {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: contain;
+}
+
+/* Літера на кабіні */
+#cabin-letter {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 3rem;
+    font-weight: 700;
+    color: var(--white);
+    text-shadow: 2px 2px 4px var(--dark-black);
+    user-select: none;
+}
+
+/* Контейнер для слотів */
+.train-slots {
+    display: flex;
+    flex-grow: 1;
+    gap: 10px;
+    flex-wrap: wrap;
+    min-height: 105px; /* Місце для слотів */
+}
+
+/* --- Вагони (Wagons) --- */
+.wagon-card {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    background-color: var(--white);
+    border: 3px solid var(--dark-black);
+    cursor: grab; /* Рука, що хапає */
+    transition: all 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    padding: 4px;
+    overflow: hidden;
+    position: absolute; /* ВАЖЛИВО для Interact.js */
+    top: 0;
+    left: 0;
+    z-index: 100; /* Бути вище всього */
+    user-select: none;
+    /* transform встановлюється через JS */
+}
+
+/* Стиль для вагонів, які треба приховати */
+.wagon-card.hidden {
+    opacity: 0;
+    pointer-events: none; /* Не можна взаємодіяти */
+}
+
+
+.wagon-image {
+    width: 100%;
+    height: 70px;
+    object-fit: contain;
+    margin-top: 2px;
+}
+.wagon-label {
+    width: 100%;
+    background-color: var(--dark-black);
+    color: var(--white);
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-align: center;
+    padding: 2px 0;
+    flex-shrink: 0;
+}
+
+/* --- Слоти (Slots) --- */
+.train-slot {
+    width: 100px;
+    height: 100px;
+    border-radius: 12px;
+    border: 3px dashed var(--main-yellow);
+    background-color: rgba(255, 214, 10, 0.1);
+    opacity: 0.7;
+    transition: all 0.2s ease;
+}
+
+/* --- Стан перетягування (Interact.js) --- */
+
+/* Стиль вагона, коли його тягнуть */
+.wagon-card.dragging {
+    cursor: grabbing; /* Рука, що тримає */
+    /* transform: scale(1.05); - Прибираємо, щоб не заважало */
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    border-color: var(--main-yellow);
+    z-index: 1000; /* Бути вище всіх */
+}
+
+/* Стиль слота, коли вагон над ним */
+.train-slot.can-accept {
+    background-color: rgba(46, 204, 113, 0.3); /* Зеленуватий */
+    border-color: #2ECC71;
+    opacity: 1;
+    transform: scale(1.05);
+}
+
+/* Стиль заблокованого вагона (в слоті) */
+.wagon-card.locked {
+    border-color: #2ECC71; /* Зелена рамка */
+    cursor: default; /* Звичайний курсор */
+    z-index: 50; /* Нижче, ніж той, що тягнуть */
+}
+
+/* --- Загальні стилі для кнопок гри --- */
+.game-button {
+    font-family: var(--font-family);
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--dark-black);
+    background-color: var(--main-yellow);
+    border: 2px solid var(--dark-black);
+    border-radius: 12px;
+    padding: 12px 24px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: block; /* Важливо для margin: auto */
+    margin: 20px auto 0 auto; /* Центрування */
+    z-index: 200; /* Бути вище ігрових елементів */
+    position: relative; /* Щоб z-index працював */
+}
+.game-button:hover {
+    background-color: var(--white);
+    transform: scale(1.03);
+}
+
+/* --- Етап 1: Кнопка "Далі" --- */
+/* Стилі для .next-stage-btn вже є в .game-button */
+
+
+/* --- Етап 2: Секція Запитань --- */
+.questions-section {
+    position: absolute; /* Перекриває ігрове поле */
+    top: 60px; /* Відступ від інструкції */
+    left: 20px;
+    right: 20px;
+    bottom: 20px;
+    background-color: rgba(30, 30, 30, 0.9); /* Темний напівпрозорий фон */
+    border-radius: 12px;
+    padding: 20px;
+    z-index: 500; /* Вище ігрових елементів */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-y: auto; /* Дозволяє прокрутку, якщо багато питань */
+    color: var(--light-gray);
+    animation: fadeIn 0.3s ease; /* Анімація появи */
+}
+
+.questions-section h2 {
+    color: var(--main-yellow);
+    margin-bottom: 20px;
+}
+
+#questions-list {
+    list-style: none; /* Прибираємо маркери списку */
+    padding: 0;
+    margin: 0 0 20px 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+#questions-list li {
+    background-color: rgba(0, 0, 0, 0.3);
+    padding: 12px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    font-size: 1.1rem;
+    text-align: center;
+}
+/* Стилі для .memory-check-btn вже є в .game-button */
+
+/* --- Етап 3: Екран Перевірки Пам'яті --- */
+.recall-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(30, 30, 30, 0.95); /* Ще темніший фон */
+    z-index: 1000; /* Вище всього, крім кнопок Назад/Індикатора */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    color: var(--light-gray);
+    animation: fadeIn 0.5s ease;
+}
+
+.recall-overlay h2 {
+    color: var(--main-yellow);
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.recall-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr); /* 3 колонки */
+    gap: 15px;
+    width: 100%;
+    max-width: 400px; /* Обмежуємо ширину сітки */
+    margin-bottom: 30px;
+}
+
+/* Стиль для вагонів у сітці перевірки */
+.recall-grid .wagon-card {
+    position: static; /* Звичайне позиціонування */
+    cursor: pointer;
+    width: 100%; /* Розтягуємо на всю колонку */
+    height: auto; /* Висота автоматична */
+    aspect-ratio: 1 / 1; /* Робимо квадратними */
+    border-width: 4px;
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.recall-grid .wagon-card:hover {
+     transform: scale(1.05);
+}
+
+.recall-grid .wagon-card.selected {
+    border-color: var(--main-yellow);
+    box-shadow: 0 0 15px var(--main-yellow);
+}
+
+.recall-feedback {
+    min-height: 1.5em; /* Резервуємо місце під повідомлення */
+    margin-bottom: 20px;
+    font-weight: 600;
+    text-align: center;
+}
+.recall-feedback.correct { color: #2ECC71; }
+.recall-feedback.incorrect { color: #E74C3C; }
+
+/* Стилі для .recall-submit-btn та .play-again-btn вже є в .game-button */
+.play-again-btn {
+    background-color: #2ECC71; /* Зелена кнопка */
+}
+.play-again-btn:hover {
+     background-color: #25a25a;
+}
+
+
+/* --- Адаптивність для нових етапів --- */
+
+@media (max-width: 768px) {
+    /* Зменшуємо кабіну, вагони та слоти */
+    .train-cabin { width: 80px; height: 80px; }
+    .wagon-card { width: 80px; height: 80px; }
+    .train-slot { width: 80px; height: 80px; }
+    #cabin-letter { font-size: 2.5rem; }
+    .wagon-image { height: 55px; }
+    .wagon-label { font-size: 0.7rem; }
+
+    /* Адаптація сітки перевірки */
+    .recall-grid { max-width: 350px; gap: 10px;}
+    .recall-grid .wagon-card .wagon-image { height: 60%; } /* Трохи менше зображення */
+    .recall-grid .wagon-card .wagon-label { font-size: 0.7rem; }
+}
+
+@media (max-width: 480px) {
+    /* На дуже малих екранах */
+    .train-cabin { width: 70px; height: 70px; }
+    .wagon-card { width: 70px; height: 70px; }
+    .train-slot { width: 70px; height: 70px; }
+     #cabin-letter { font-size: 2rem; }
+    .wagon-image { height: 45px; }
+
+    /* Адаптація сітки перевірки */
+    .recall-grid { max-width: 300px; gap: 8px;}
+     .recall-grid .wagon-card .wagon-image { height: 55%; }
+     .recall-grid .wagon-card .wagon-label { font-size: 0.6rem; }
+
+    .questions-section h2 { font-size: 1.2rem; }
+    #questions-list li { font-size: 1rem; padding: 10px; }
+    .recall-overlay h2 { font-size: 1.1rem; }
+    .game-button { font-size: 1rem; padding: 10px 20px; }
+}
+
+/* Анімація появи */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+

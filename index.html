@@ -1,99 +1,255 @@
+<!-- 
+  ФАЙЛ: index.html
+  ОПИС: Головний HTML-файл, "скелет" всього SPA-застосунку.
+          Містить контейнери для сторінок та підключає всі CSS/JS.
+-->
 <!DOCTYPE html>
 <html lang="uk">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Логопедичні ігри - Головна</title>
+    <title>Логопедичні ігри (SPA)</title>
+    
+    <!-- Іконка сайту (favicon) -->
     <link rel="icon" type="image/png" href="image/logo.png">
     
+    <!-- Підключення шрифтів Google -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <!-- Підключення стилів -->
     <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/game1.css">
 </head>
 <body>
     
+    <!-- ======================= -->
+    <!--     Шапка (Хедер)       -->
+    <!-- ======================= -->
     <header class="floating-box">
-        <!-- ... (Хедер без змін) ... -->
-        <a href="index.html" class="site-title active-page">Логопедичні ігри</a>
+        <!-- Лого/назва сайту, посилання на головну -->
+        <a href="#index" class="site-title nav-item">Логопедичні ігри</a>
+        
+        <!-- Головна навігація -->
         <nav id="main-nav">
-            <a href="index.html" class="nav-link active-page">Вправи</a>
-            <a href="about.html" class="nav-link">Про сайт</a>
+            <a href="#index" class="nav-link nav-item">Вправи</a>
+            <a href="#about" class="nav-link nav-item">Про сайт</a>
         </nav>
+        
+        <!-- Кнопка бургер-меню для мобільних пристроїв -->
         <button id="menu-toggle" class="menu-toggle" aria-label="Відкрити меню">
             <span></span>
             <span></span>
             <span></span>
         </button>
     </header>
-
+    
+    <!-- ======================= -->
+    <!--   Основний контент      -->
+    <!-- ======================= -->
     <main>
-        <!-- ... (Сітка ігор без змін) ... -->
-        <section class="game-grid-section floating-box">
-             <div class="game-grid-container" id="game-grid">
-                <div class="game-card" data-game-id="1">
-                    <img src="image/game1.png" alt="Гра 1" draggable="false"
-                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+1'">
-                    <h3>Гра 1: Потяг</h3>
+        
+        <!-- ============================================= -->
+        <!--     СЕКЦІЇ СТОРІНОК (Керуються через SPA)    -->
+        <!-- ============================================= -->
+        
+        <!-- ----------------------- -->
+        <!--    Сторінка ГОЛОВНА     -->
+        <!-- ----------------------- -->
+        <section id="page-index" class="page-section">
+            <!-- Секція з сіткою вибору гри -->
+            <section class="game-grid-section floating-box">
+                <div class="game-grid-container" id="game-grid">
+                    
+                    <!-- Картка гри (генерується або статична) -->
+                    <div class="game-card" data-game-id="1">
+                        <img src="image/game1.png" alt="Гра 1: Потяг" 
+                             onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+1'">
+                        <h3>Гра 1: Потяг</h3>
+                    </div>
+                    
+                    <div class="game-card" data-game-id="2">
+                        <img src="image/game2.png" alt="Гра 2: Склад" 
+                             onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+2'">
+                        <h3>Гра 2: Склад</h3>
+                    </div>
+                    <div class="game-card" data-game-id="3">
+                        <img src="image/game3.png" alt="Гра 3: Тварини" 
+                             onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+3'">
+                        <h3>Гра 3: Тварини</h3>
+                    </div>
+                    <div class="game-card" data-game-id="4">
+                        <img src="image/game4.png" alt="Гра 4: Звуки" 
+                             onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+4'">
+                        <h3>Гра 4: Звуки</h3>
+                    </div>
+                    <div class="game-card" data-game-id="5">
+                        <img src="image/game5.png" alt="Гра 5: Щелепа" 
+                             onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+5'">
+                        <h3>Гра 5: Щелепа</h3>
+                    </div>
+                    
                 </div>
-                <!-- ... (інші картки) ... -->
-                 <div class="game-card" data-game-id="2">
-                    <img src="image/game2.png" alt="Гра 2" draggable="false"
-                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+2'">
-                    <h3>Гра 2: Склад</h3>
+            </section>
+            
+            <!-- Секція з описом та опціями обраної гри -->
+            <section class="game-description-section floating-box">
+                <div id="game-description-box" class="game-description-box">
+                    
+                    <!-- Сюди JS вставляє назву та опис гри -->
+                    <div id="game-description-text" class="game-description-text">
+                        <h2 id="game-title"></h2>
+                        <p id="game-subtitle"></p>
+                    </div>
+                    
+                    <!-- Сюди JS генерує кнопки вибору (літери, категорії) -->
+                    <div id="game-options-wrapper" class="game-options-wrapper">
+                        <!-- Вміст генерується через js/index-logic.js -->
+                    </div>
                 </div>
-                <div class="game-card" data-game-id="3">
-                    <img src="image/game3.png" alt="Гра 3" draggable="false"
-                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+3'">
-                    <h3>Гра 3: Тварини</h3>
-                </div>
-                <div class="game-card" data-game-id="4">
-                    <img src="image/game4.png" alt="Гра 4" draggable="false"
-                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+4'">
-                    <h3>Гра 4: Звуки</h3>
-                </div>
-                <div class="game-card" data-game-id="5">
-                    <img src="image/game5.png" alt="Гра 5" draggable="false"
-                         onerror="this.src='https://placehold.co/200x200/FFD60A/1E1E1E?text=Гра+5'">
-                    <h3>Гра 5: Щелепа</h3>
-                </div>
-            </div>
+            </section>
         </section>
         
-        <!-- ... (Блок опису без змін) ... -->
-        <section class="game-description-section floating-box">
-            <div id="game-description-box" class="game-description-box">
-                <div id="game-description-text" class="game-description-text">
-                    <h2 id="game-title">Оберіть гру</h2>
-                    <p id="game-subtitle">Натисніть на іконку гри, щоб побачити її опис та налаштування.</p>
-                </div>
+        <!-- ----------------------- -->
+        <!--    Сторінка "ПРО САЙТ"   -->
+        <!-- ----------------------- -->
+        <section id="page-about" class="page-section">
+            <section class="content-section floating-box">
+                <h1>Про наш сайт</h1>
+                <p>"Логопедичні ігри" – це інтерактивна платформа, створена для допомоги дітям у розвитку мовлення...</p>
+                <p>Ми віримо, що навчання через гру є найефективнішим способом досягнення результатів.</p>
                 
-                <div id="game-options-wrapper" class="game-options-wrapper">
-                    <!-- Генерується через JS -->
+                <h2>Контакти</h2>
+                <p>З будь-яких питань ви можете зв'язатися з нами:</p>
+                <div class="social-links">
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="social-link telegram">Telegram</a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="social-link instagram">Instagram</a>
+                    <a href="#" target="_blank" rel="noopener noreferrer" class="social-link facebook">Facebook</a>
                 </div>
-            </div>
+            </section>
         </section>
-    </main>
 
+        <!-- ----------------------- -->
+        <!--     Сторінка ГРИ 1      -->
+        <!-- ----------------------- -->
+        <section id="page-game1" class="page-section">
+            <section class="game-container floating-box">
+                
+                <!-- Кнопка "Назад" (повертає на #index) -->
+                <a href="#index" class="back-button" aria-label="Повернутися до вибору гри">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor"><path d="M10.8284 12.0007L15.7782 16.9504L14.364 18.3646L8 12.0007L14.364 5.63672L15.7782 7.05093L10.8284 12.0007Z"></path></svg>
+                </a>
+                
+                <!-- Індикатор статусу гри (сірий/червоний/зелений) -->
+                <div id="game-indicator" class="game-indicator grey" title="Зберіть потяг"></div>
+
+                <!-- Контейнер для ігрового поля (для позиціонування) -->
+                <div id="game-board" class="game-board">
+                    
+                    <!-- Інструкція до гри (керується через JS) -->
+                    <div id="game-message" class="game-message">
+                        Завантаження гри...
+                    </div>
+                
+                    <!-- 1. Зона спавну вагонів (верхня частина) -->
+                    <div id="wagon-spawn-area" class="wagon-spawn-area">
+                        <!-- Вагони будуть створені тут через JS -->
+                    </div>
+                    
+                    <!-- 2. Зона потягу (нижня частина) -->
+                    <div class="train-area">
+                        <div class="train-cabin">
+                            <img src="image/game1/kabina.png" alt="Кабіна" 
+                                 onerror="this.src='https://placehold.co/100x100/777/FFF?text=Кабіна'">
+                            <!-- Літера завдання (вставляється JS) -->
+                            <span id="cabin-letter">?</span>
+                        </div>
+                        <!-- Контейнер для слотів (dropzones) -->
+                        <div id="train-slots" class="train-slots">
+                            <!-- Слоти будуть створені тут через JS -->
+                        </div>
+                    </div>
+
+                    <!-- 3. Кнопка "Далі" (з'являється після збірки) -->
+                    <button id="next-stage-btn" class="game-button next-stage-btn" style="display: none;">
+                        Далі
+                    </button>
+
+                     <!-- 4. Секція для запитань (з'являється на етапі запитань) -->
+                    <div id="questions-section" class="questions-section" style="display: none;">
+                        <h2>Запитання:</h2>
+                        <ul id="questions-list">
+                            <!-- Питання генеруються тут через JS -->
+                        </ul>
+                        <button id="memory-check-btn" class="game-button memory-check-btn">
+                            Перевірити пам'ять
+                        </button>
+                    </div>
+
+                </div> <!-- кінець #game-board -->
+
+                <!-- 5. Екран перевірки пам'яті (з'являється на останньому етапі) -->
+                <div id="recall-overlay" class="recall-overlay" style="display: none;">
+                    <h2>Пригадай 6 вагонів, які були у потязі:</h2>
+                    <div id="recall-grid" class="recall-grid">
+                        <!-- 9 вагонів генеруються тут через JS -->
+                    </div>
+                    <div id="recall-feedback" class="recall-feedback"></div>
+                    <button id="recall-submit-btn" class="game-button recall-submit-btn">
+                        Готово
+                    </button>
+                     <button id="play-again-btn" class="game-button play-again-btn" style="display: none;">
+                        Грати ще раз
+                    </button>
+                </div>
+
+
+            </section>
+        </section>
+        
+    </main>
+    
+    <!-- ======================= -->
+    <!--     Підвал (Футер)      -->
+    <!-- ======================= -->
     <footer class="floating-box">
-        <!-- ... (Футер без змін) ... -->
-         <div class="footer-content">
+        <div class="footer-content">
             © 2025 Логопедичні ігри. Всі права захищено.
         </div>
     </footer>
     
+
+    <!-- ============================================= -->
+    <!--          ПІДКЛЮЧЕННЯ СКРИПТІВ           -->
+    <!-- ============================================= -->
+    
+    <!-- Важливо: Спочатку підключаємо сторонні бібліотеки -->
+    
+    <!-- Бібліотека Interact.js для складного Drag-n-Drop -->
+    <!-- Оновлено до останньої версії для стабільності -->
+    <script src="https://cdn.jsdelivr.net/npm/interactjs@1.10.26/dist/interact.min.js"></script>
+
+    
     <!-- 
-      ОПТИМІЗАЦІЯ:
-      1. main.js - Глобальний скрипт (меню).
-      2. game-data.js - (НОВИЙ) Окремий файл з даними про ігри.
-      3. index-logic.js - Логіка, що читає дані з game-data.js.
-      
-      Порядок ВАЖЛИВИЙ: game-data.js має бути ПЕРЕД index-logic.js
+      Підключення наших скриптів. 
+      ПОРЯДОК ДУЖЕ ВАЖЛИВИЙ!
+      1. Спочатку дані.
+      2. Потім класи, які ці дані використовують.
+      3. В кінці - головний скрипт (main.js), який все запускає.
     -->
+    
+    <!-- 1. Дані -->
+    <script src="js/game-data.js"></script>
+    <script src="js/game1-content.js"></script>
+    
+    <!-- 2. Логіка (Класи) -->
+    <script src="js/index-logic.js"></script> <!-- Логіка головної сторінки -->
+    <script src="js/game1.js"></script>       <!-- Логіка Гри 1 -->
+    
+    <!-- 3. Запуск (Головний файл, SPA-роутер) -->
     <script src="js/main.js"></script>
-    <script src="js/game-data.js"></script> <!-- <<< НОВИЙ ФАЙЛ ДАНИХ -->
-    <script src="js/index-logic.js"></script> 
+
 </body>
 </html>
 

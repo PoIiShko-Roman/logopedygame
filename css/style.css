@@ -1,9 +1,10 @@
 /* ФАЙЛ: css/style.css
-  ПРИЗНАЧЕННЯ: Цей файл стилізує ВЕСЬ проєкт 
-  (index.html, about.html, gameX.html, 404.html).
+  ОПИС: Головні стилі сайту. 
+          Відповідає за хедер, футер, сітку ігор (головна сторінка),
+          адаптивність та SPA-логіку (приховування сторінок).
 */
 
-/* ЗОНА: Змінні та Глобальні стилі */
+/* --- ЗМІННІ ТА ГЛОБАЛЬНІ СТИЛІ --- */
 :root {
     --main-yellow: #FFD60A;
     --dark-black: #1E1E1E;
@@ -11,14 +12,17 @@
     --white: #FFFFFF;
     --font-family: 'Inter', sans-serif;
 }
+
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
+    box-sizing: border-box; /* Стандартна модель боксів */
 }
+
 html {
     scroll-behavior: smooth;
 }
+
 body {
     background-color: var(--main-yellow);
     font-family: var(--font-family);
@@ -26,42 +30,47 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    padding-top: 100px; /* Відступ для фіксованого хедера */
+    /* padding-top: 100px; - Видалено, щоб хедер не був "fixed" */
 }
+
+/* Допоміжний клас для заборони виділення тексту */
 .no-select {
     user-select: none;
 }
-/* ЗОНА: Основний клас-конструктор
-  '.floating-box' використовується в HTML для хедера, футера та блоків контенту.
-*/
+
+/* --- ОСНОВНИЙ КОНТЕЙНЕР-КОНСТРУКТОР --- */
+/* Цей клас використовується для хедера, футера та ігрових блоків */
 .floating-box {
-    width: calc(100% - 32px);
+    width: calc(100% - 32px); /* Ширина з відступами по боках */
     max-width: 1280px;
     margin-left: auto;
     margin-right: auto;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
 main {
     flex-grow: 1; /* Притискає футер до низу */
     padding: 20px 0;
 }
-/* --- ЗОНА: Хедер (Menu) --- */
+
+/* --- ХЕДЕР (ШАПКА) --- */
 header {
     background-color: var(--dark-black);
     color: var(--main-yellow);
     padding: 0 24px;
-    position: fixed;
-    top: 16px;
-    left: 0;
-    right: 0;
-    z-index: 1000;
+    /* Видалено position: fixed та top/left/right/z-index.
+      Тепер хедер є частиною потоку сторінки і прокручується.
+      Це виправляє проблему накладання на мобільних пристроях.
+    */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 68px;
+    height: 68px; /* Висота для ПК */
+    margin-top: 16px; /* Відступ зверху, імітуючи "плаваючий" стиль */
 }
-/* Стилі "пігулки" для кнопок меню */
+
+/* Стилі для назви сайту та кнопок навігації */
 .site-title,
 .nav-link {
     font-size: 1rem;
@@ -75,38 +84,40 @@ header {
     background-color: transparent;
     cursor: pointer;
 }
+
 .site-title:hover,
 .nav-link:hover {
     color: var(--white);
     border-color: var(--white);
     transform: scale(1.03);
 }
-/* Стиль '.active-page' додається в HTML, 
-   щоб показати поточну сторінку. */
+
+/* Стиль для активного посилання (поточної сторінки) */
 .site-title.active-page,
 .nav-link.active-page {
     background-color: var(--main-yellow);
     color: var(--dark-black);
 }
+
+/* Ховаємо назву сайту на мобільних за замовчуванням */
 .site-title {
-    display: none; /* Ховаємо назву сайту на моб. за замовчуванням */
+    display: none; 
 }
+
 nav {
     display: flex;
     gap: 16px;
 }
-/* --- ЗОНА: Бургер-меню (Мобільні) --- */
-/* Клас '.is-active' (анімація "Х") та 
-  '.nav-active' (показ меню) 
-  додаються/видаляються файлом 'js/main.js'.
-*/
+
+/* --- БУРГЕР-МЕНЮ (МОБІЛЬНІ) --- */
 .menu-toggle {
     display: none; /* Приховано на ПК */
     background: transparent;
     border: none;
     cursor: pointer;
-    z-index: 1010;
+    z-index: 1010; /* Бути вище навігації */
 }
+
 .menu-toggle span {
     display: block;
     width: 25px;
@@ -116,6 +127,8 @@ nav {
     margin: 5px 0;
     transition: all 0.3s ease;
 }
+
+/* Анімація "хрестика" для бургера */
 .menu-toggle.is-active span:nth-child(1) {
     transform: translateY(8px) rotate(45deg);
 }
@@ -125,31 +138,32 @@ nav {
 .menu-toggle.is-active span:nth-child(3) {
     transform: translateY(-8px) rotate(-45deg);
 }
-/* --- ЗОНА: Сітка Ігор (тільки для index.html) --- */
+
+/* --- СІТКА ІГОР (index.html) --- */
 .game-grid-section {
     background-color: var(--dark-black);
     padding: 24px;
     border-radius: 16px; 
 }
+
 .game-grid-container {
     display: grid;
-    /* Адаптивна CSS Grid: 
-       автоматично підбирає к-сть колонок (min 200px) */
+    /* Адаптивна сітка: колонки мін. 200px */
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
 }
+
 .game-card {
     padding: 16px;
     cursor: pointer;
     transition: transform 0.4s ease, opacity 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    /* Стиль неактивної картки */
-    transform: scale(0.9);
+    transform: scale(0.9); /* Початковий стан - неактивна */
     opacity: 0.7;
     background-color: var(--dark-black);
     color: var(--main-yellow);
     border: 3px solid var(--main-yellow);
     border-radius: 16px;
-    aspect-ratio: 1 / 1; /* Квадратні картки */
+    aspect-ratio: 1 / 1; /* Робить картку квадратною */
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -158,19 +172,21 @@ nav {
     position: relative;
     user-select: none;
 }
+
 .game-card h3 {
     font-size: 1.5rem;
-    z-index: 2;
+    z-index: 2; /* Над зображенням */
     position: relative;
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 0.5); /* ФОН для читанння */
     padding: 5px 10px;
     border-radius: 8px;
     text-align: center;
 }
+
 .game-card img {
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: cover; /* Зображення заповнює картку */
     position: absolute;
     top: 0;
     left: 0;
@@ -179,28 +195,31 @@ nav {
     border-radius: 12px;
     transition: opacity 0.3s ease;
 }
-/* Клас '.active' (для обраної картки) 
-  додається/видаляється файлом 'js/index-logic.js'.
-*/
+
+/* Стиль для активної (обраної) картки */
 .game-card.active {
     transform: scale(1);
     opacity: 1;
     border-color: var(--white);
     box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
 }
+
 .game-card:not(.active):hover {
     transform: scale(0.95);
     opacity: 0.8;
 }
+
 .game-card.active img {
     opacity: 1;
 }
-/* --- ЗОНА: Опис Гри (тільки для index.html) --- */
+
+/* --- ОПИС ГРИ (index.html) --- */
 .game-description-section {
     margin-top: 20px;
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
+
 .game-description-box {
     background-color: var(--dark-black);
     color: var(--main-yellow);
@@ -213,25 +232,28 @@ nav {
     gap: 20px;
     border-radius: 16px;
 }
+
 .game-description-text {
     text-align: center;
 }
+
 .game-description-box h2 {
     font-size: 1.75rem;
     margin-bottom: 8px;
 }
+
 .game-description-box p {
     font-size: 1rem;
     color: var(--light-gray);
 }
-/* ЗОНА: Динамічні опції гри
-  Стилі для HTML, який генерує 'js/index-logic.js'.
-*/
+
+/* --- ДИНАМІЧНІ ОПЦІЇ ГРИ (index.html) --- */
 .game-options-wrapper {
     display: flex;
     flex-direction: column;
     gap: 12px;
 }
+
 .game-options-row {
     display: flex;
     justify-content: space-between;
@@ -241,6 +263,7 @@ nav {
     padding: 16px;
     border: 1px solid #444;
 }
+
 .game-options-text {
     font-size: 1rem;
     font-weight: 700;
@@ -250,23 +273,24 @@ nav {
     height: 40px;
     display: inline-flex; 
     align-items: center;
-    justify-content: center; /* Текст буде по центру кнопки */
+    justify-content: center;
     padding: 0 16px;
     white-space: nowrap;
-
-    /* * ДОДАНО (З ОСТАННЬОГО ОНОВЛЕННЯ):
-     * Встановлюємо мінімальну ширину, щоб кнопки 
-     * "Одяг:" і "Їжа:" були однакового розміру.
-     * 140px - достатньо для більшості назв (напр. "Транспорт:")
-     */
-    min-width: 140px; 
+    text-align: center;
+    
+    /* ВИПРАВЛЕНО: Фіксована ширина для однакового вигляду */
+    width: 240px; 
 }
+
 .game-options-buttons {
     display: flex;
-    flex-wrap: wrap; /* Дозволяє кнопкам переноситись */
+    flex-wrap: wrap; 
     gap: 10px;
-    justify-content: flex-end;
+    justify-content: flex-end; /* Кнопки притиснуті до правого краю */
+    flex-grow: 1; /* Займають весь вільний простір */
 }
+
+/* Кнопки вибору літери (С, Ш, Р) */
 .letter-btn {
     font-family: var(--font-family);
     font-size: 1rem;
@@ -284,33 +308,37 @@ nav {
     justify-content: center;
     align-items: center;
 }
+
 .letter-btn:hover {
     background-color: var(--white);
     transform: scale(1.1);
 }
-/* ЗОНА: Статичний контент 
-  (для about.html, gameX.html, 404.html) 
-*/
+
+/* --- СТАТИЧНИЙ КОНТЕНТ (about.html) --- */
 .content-section {
     background-color: var(--dark-black);
     color: var(--light-gray);
     padding: 32px;
     border-radius: 16px;
 }
+
 .content-section h1, .content-section h2 {
     color: var(--main-yellow);
     margin-bottom: 16px;
 }
+
 .content-section p {
     font-size: 1.1rem;
     line-height: 1.6;
     margin-bottom: 24px;
 }
+
 .social-links {
     display: flex;
     gap: 16px;
     flex-wrap: wrap;
 }
+
 .social-link {
     display: inline-block;
     padding: 12px 20px;
@@ -320,54 +348,59 @@ nav {
     transition: all 0.2s ease;
     border: 2px solid transparent;
 }
+
 .social-link:hover {
     transform: scale(1.03);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
-/* Спеціальні кольори для соц. мереж */
+
+/* Соц. кнопки з кольорами */
 .social-link.telegram { background-color: #26A5E4; color: var(--white); }
 .social-link.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: var(--white); }
 .social-link.facebook { background-color: #1877F2; color: var(--white); }
-/* --- ЗОНА: Футер (Підвал) --- */
+
+
+/* --- ФУТЕР (ПІДВАЛ) --- */
 footer {
     background-color: var(--dark-black);
     color: var(--light-gray);
     padding: 20px;
     text-align: center;
     font-size: 0.9rem;
-    margin-top: 16px;
-    margin-bottom: 16px;
+    margin-top: 16px; /* Відступ зверху */
+    margin-bottom: 16px; /* Відступ знизу */
 }
-/* =================================
-  ЗОНА: АДАПТИВНІСТЬ (Media Queries)
-  Правила для різних екранів.
-  =================================
-*/
-/* Для ПК (більше 768px) */
+
+/* --- АДАПТИВНІСТЬ (Media Queries) --- */
+
+/* Планшети і вище */
 @media (min-width: 769px) {
+    /* Показуємо назву сайту (Логопедичні ігри) */
     .site-title {
-        display: inline-block; /* Показуємо назву сайту */
+        display: inline-block;
     }
 }
-/* Для Планшетів та Мобільних (менше 768px) */
+
+/* Планшети і мобільні */
 @media (max-width: 768px) {
-    /* Змінюємо відступ для хедера */
     body {
-        padding-top: 84px;
+        /* padding-top: 84px; - Видалено */
     }
     header {
-        height: auto;
-        flex-wrap: wrap;
+        height: auto; /* Висота автоматична для моб. меню */
+        flex-wrap: wrap; /* Дозволяє меню переноситись */
         padding: 12px 16px;
-        top: 12px;
-        width: calc(100% - 24px);
+        /* top: 12px; - Видалено */
+        width: calc(100% - 24px); /* Ширина з відступами */
+        margin-top: 12px; /* Зменшений відступ */
     }
     
-    /* Показуємо бургер-кнопку */
+    /* Показуємо кнопку бургера */
     .menu-toggle {
         display: block; 
     }
-    /* Ховаємо навігацію ПК */
+    
+    /* Ховаємо навігацію */
     nav#main-nav {
         display: none; 
         flex-direction: column;
@@ -376,52 +409,48 @@ footer {
         margin-top: 12px;
         animation: fadeIn 0.3s ease;
     }
-    /* Стиль для відкритого меню (додає JS) */
+    
+    /* Стиль для активної (відкритої) навігації */
     nav#main-nav.nav-active {
         display: flex; 
     }
     
-    /* Змінюємо вигляд кнопок у моб. меню */
     .nav-link {
         border: none;
-        border-top: 1px solid #444;
+        border-top: 1px solid #444; /* Розділювач */
         border-radius: 0;
         width: 100%;
     }
+    
     .nav-link.active-page {
         background-color: transparent;
         color: var(--white);
     }
-    /* Адаптація блоку опцій на мобільних */
+    
+    /* Опції гри на мобільних */
     .game-options-row {
-        flex-direction: column;
+        flex-direction: column; /* Складаємо у стовпчик */
         align-items: flex-start;
         gap: 16px;
     }
-    .game-options-buttons {
-        justify-content: flex-start;
-    }
-    
-    /* * ДОДАНО (З ОСТАННЬОГО ОНОВЛЕННЯ):
-     * На мобільних пристроях робимо кнопку типу 
-     * на всю ширину для кращого вигляду.
-     */
     .game-options-text {
-        min-width: 100%;
+        width: 100%; /* На всю ширину */
+    }
+    .game-options-buttons {
+        /* Робимо гнучку сітку для кнопок літер */
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 40px);
+        justify-content: space-between;
+        width: 100%;
     }
 }
-/* Для маленьких екранів (менше 468px)
-  Виправляє "стрибок" сітки (1 -> 2 -> 1).
-  468px = (200px * 2) + 20px gap + (24px * 2) padding
-  Точка зламу (breakpoint) для сітки ігор.
-*/
+
+/* Маленькі мобільні */
 @media (max-width: 468px) {
     .game-grid-section {
         padding: 16px;
     }
     .game-grid-container {
-        /* Нові параметри сітки для мобільних */
-        /* (160px * 2) + 16px gap + (16px * 2) padding = 368px */
         grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
         gap: 16px;
     }
@@ -429,9 +458,29 @@ footer {
         padding: 16px;
     }
 }
-/* Анімація появи (для моб. меню) */
+
+/* Анімація появи */
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(-10px); }
     to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- СТИЛІ ДЛЯ SPA-РОУТЕРА --- */
+
+/* Ховаємо всі "сторінки" за замовчуванням */
+.page-section {
+    display: none;
+}
+
+/* Показуємо тільки активну "сторінку" */
+.page-section.active {
+    display: block;
+    animation: fadeInPage 0.3s ease-in-out;
+}
+
+/* Анімація появи сторінки */
+@keyframes fadeInPage {
+    from { opacity: 0; }
+    to { opacity: 1; }
 }
 
