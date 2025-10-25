@@ -383,9 +383,7 @@ footer {
 
 /* Планшети і мобільні */
 @media (max-width: 768px) {
-    body {
-        /* padding-top: 84px; - Видалено */
-    }
+    
     header {
         height: auto; /* Висота автоматична для моб. меню */
         flex-wrap: wrap; /* Дозволяє меню переноситись */
