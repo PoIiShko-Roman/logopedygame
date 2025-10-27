@@ -1,28 +1,44 @@
-/* ФАЙЛ: css/style.css
-  ОПИС: Головні стилі сайту. 
-          Відповідає за хедер, футер, сітку ігор (головна сторінка),
-          адаптивність та SPA-логіку (приховування сторінок).
+﻿/*
+  ФАЙЛ: css/style.css
+  ОПИС: Головні стилі сайту.
 */
 
-/* --- ЗМІННІ ТА ГЛОБАЛЬНІ СТИЛІ --- */
+/* === Токени теми сайту (для зміни кольорів) === */
 :root {
+    /* Black & Yellow theme variables */
     --main-yellow: #FFD60A;
     --dark-black: #1E1E1E;
     --light-gray: #F5F5F5;
     --white: #FFFFFF;
     --font-family: 'Inter', sans-serif;
+    --header-height: 68px;
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-8: 32px;
+    --radius-1: 8px;
+    --radius-2: 12px;
+    --radius-3: 16px;
+  /* Theme core palette */
+  --color-brand: var(--main-yellow);
+  --color-surface: var(--dark-black);
+  --color-text: var(--dark-black);
+  --color-on-surface: var(--main-yellow);
+  --color-on-brand: var(--dark-black);
+  --border-subtle: #444;
+  /* Game/status accents */
+  --state-grey: #777;
+  --state-success: #2ECC71;
+  --state-error: #E74C3C;
+  --state-focus: #3498DB;
 }
+/* === Компоненти та макет === */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box; /* Стандартна модель боксів */
-}
-
-html {
-    scroll-behavior: smooth;
-}
-
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
 body {
     background-color: var(--main-yellow);
     font-family: var(--font-family);
@@ -30,455 +46,489 @@ body {
     min-height: 100vh;
     display: flex;
     flex-direction: column;
-    /* padding-top: 100px; - Видалено, щоб хедер не був "fixed" */
 }
+.no-select { user-select: none; }
 
-/* Допоміжний клас для заборони виділення тексту */
-.no-select {
-    user-select: none;
-}
-
-/* --- ОСНОВНИЙ КОНТЕЙНЕР-КОНСТРУКТОР --- */
-/* Цей клас використовується для хедера, футера та ігрових блоків */
 .floating-box {
-    width: calc(100% - 32px); /* Ширина з відступами по боках */
+    width: calc(100% - 32px);
     max-width: 1280px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 0 auto; /* Горизонтальне центрування */
     border-radius: 16px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-main {
-    flex-grow: 1; /* Притискає футер до низу */
-    padding: 20px 0;
-}
+main { flex-grow: 1; padding: 20px 0; }
 
-/* --- ХЕДЕР (ШАПКА) --- */
 header {
     background-color: var(--dark-black);
     color: var(--main-yellow);
     padding: 0 24px;
-    /* Видалено position: fixed та top/left/right/z-index.
-      Тепер хедер є частиною потоку сторінки і прокручується.
-      Це виправляє проблему накладання на мобільних пристроях.
-    */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 68px; /* Висота для ПК */
-    margin-top: 16px; /* Відступ зверху, імітуючи "плаваючий" стиль */
+    height: 68px;
+    margin-top: 16px; /* Відступ зверху */
 }
 
-/* Стилі для назви сайту та кнопок навігації */
-.site-title,
-.nav-link {
-    font-size: 1rem;
-    font-weight: 600;
-    color: var(--main-yellow);
-    text-decoration: none;
-    padding: 8px 16px;
-    border: 2px solid var(--main-yellow);
-    border-radius: 50px;
-    transition: all 0.2s ease;
-    background-color: transparent;
-    cursor: pointer;
+.nav-item { font-size: 1rem; font-weight: 600; color: var(--main-yellow); text-decoration: none; padding: 8px 16px; border: 2px solid var(--main-yellow); border-radius: 50px; transition: all 0.2s ease; background-color: transparent; cursor: pointer; }
+.nav-item:hover {
+    color: var(--white); border-color: var(--white); transform: scale(1.03);
 }
+.nav-item.active-page {
+    background-color: var(--main-yellow); color: var(--dark-black);
+}
+.site-title { display: none; }
+nav { display: flex; gap: 16px; }
 
-.site-title:hover,
-.nav-link:hover {
-    color: var(--white);
-    border-color: var(--white);
-    transform: scale(1.03);
-}
+.menu-toggle { display: none; background: transparent; border: none; cursor: pointer; z-index: 1010; }
+.menu-toggle span { display: block; width: 25px; height: 3px; background-color: var(--main-yellow); border-radius: 3px; margin: 5px 0; transition: all 0.3s ease; }
+.menu-toggle.is-active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+.menu-toggle.is-active span:nth-child(2) { opacity: 0; }
+.menu-toggle.is-active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
 
-/* Стиль для активного посилання (поточної сторінки) */
-.site-title.active-page,
-.nav-link.active-page {
-    background-color: var(--main-yellow);
-    color: var(--dark-black);
-}
-
-/* Ховаємо назву сайту на мобільних за замовчуванням */
-.site-title {
-    display: none; 
-}
-
-nav {
-    display: flex;
-    gap: 16px;
-}
-
-/* --- БУРГЕР-МЕНЮ (МОБІЛЬНІ) --- */
-.menu-toggle {
-    display: none; /* Приховано на ПК */
-    background: transparent;
-    border: none;
-    cursor: pointer;
-    z-index: 1010; /* Бути вище навігації */
-}
-
-.menu-toggle span {
-    display: block;
-    width: 25px;
-    height: 3px;
-    background-color: var(--main-yellow);
-    border-radius: 3px;
-    margin: 5px 0;
-    transition: all 0.3s ease;
-}
-
-/* Анімація "хрестика" для бургера */
-.menu-toggle.is-active span:nth-child(1) {
-    transform: translateY(8px) rotate(45deg);
-}
-.menu-toggle.is-active span:nth-child(2) {
-    opacity: 0;
-}
-.menu-toggle.is-active span:nth-child(3) {
-    transform: translateY(-8px) rotate(-45deg);
-}
-
-/* --- СІТКА ІГОР (index.html) --- */
-.game-grid-section {
-    background-color: var(--dark-black);
-    padding: 24px;
-    border-radius: 16px; 
-}
-
-.game-grid-container {
-    display: grid;
-    /* Адаптивна сітка: колонки мін. 200px */
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-}
-
+.game-grid-section { background-color: var(--dark-black); padding: 24px; border-radius: 16px; }
+.game-grid-container { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; }
 .game-card {
-    padding: 16px;
-    cursor: pointer;
-    transition: transform 0.4s ease, opacity 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease;
-    transform: scale(0.9); /* Початковий стан - неактивна */
-    opacity: 0.7;
-    background-color: var(--dark-black);
-    color: var(--main-yellow);
-    border: 3px solid var(--main-yellow);
-    border-radius: 16px;
-    aspect-ratio: 1 / 1; /* Робить картку квадратною */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    position: relative;
-    user-select: none;
+    padding: 16px; cursor: pointer; transition: transform 0.4s ease, opacity 0.4s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+    transform: scale(0.9); opacity: 0.7; background-color: var(--dark-black); color: var(--main-yellow);
+    border: 3px solid var(--main-yellow); border-radius: 16px; aspect-ratio: 1 / 1; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; overflow: hidden; position: relative; user-select: none;
 }
-
-.game-card h3 {
-    font-size: 1.5rem;
-    z-index: 2; /* Над зображенням */
-    position: relative;
-    background-color: rgba(0, 0, 0, 0.5); /* ФОН для читанння */
-    padding: 5px 10px;
-    border-radius: 8px;
-    text-align: center;
+.game-card:focus-visible { outline: 2px solid var(--white); outline-offset: 2px; }
+.game-card h3, .game-card .title {
+    font-size: 1.5rem; z-index: 2; position: relative; background-color: rgba(0, 0, 0, 0.5);
+    padding: 5px 10px; border-radius: 8px; text-align: center;
 }
-
 .game-card img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* Зображення заповнює картку */
-    position: absolute;
-    top: 0;
-    left: 0;
-    z-index: 1;
-    opacity: 0.7;
-    border-radius: 12px;
-    transition: opacity 0.3s ease;
+    width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;
+    z-index: 1; opacity: 0.7; border-radius: 12px; transition: opacity 0.3s ease;
 }
+.game-card.active { transform: scale(1); opacity: 1; border-color: var(--white); box-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+.game-card:not(.active):hover { transform: scale(0.95); opacity: 0.8; }
+.game-card.active img { opacity: 1; }
 
-/* Стиль для активної (обраної) картки */
-.game-card.active {
-    transform: scale(1);
-    opacity: 1;
-    border-color: var(--white);
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-}
-
-.game-card:not(.active):hover {
-    transform: scale(0.95);
-    opacity: 0.8;
-}
-
-.game-card.active img {
-    opacity: 1;
-}
-
-/* --- ОПИС ГРИ (index.html) --- */
-.game-description-section {
-    margin-top: 20px;
-    border-radius: 16px;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-}
-
+.game-description-section { margin-top: 20px; border-radius: 16px; box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); }
 .game-description-box {
-    background-color: var(--dark-black);
-    color: var(--main-yellow);
-    border: 3px solid var(--main-yellow);
-    padding: 24px;
-    min-height: 120px;
-    transition: all 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    border-radius: 16px;
+    background-color: var(--dark-black); color: var(--main-yellow); border: 3px solid var(--main-yellow);
+    padding: 24px; min-height: 120px; transition: all 0.3s ease; display: flex; flex-direction: column; gap: 20px; border-radius: 16px;
 }
+.game-description-text { text-align: center; }
+.game-description-box h2 { font-size: 1.75rem; margin-bottom: 8px; }
+.game-description-box p { font-size: 1rem; color: var(--light-gray); }
 
-.game-description-text {
-    text-align: center;
-}
-
-.game-description-box h2 {
-    font-size: 1.75rem;
-    margin-bottom: 8px;
-}
-
-.game-description-box p {
-    font-size: 1rem;
-    color: var(--light-gray);
-}
-
-/* --- ДИНАМІЧНІ ОПЦІЇ ГРИ (index.html) --- */
-.game-options-wrapper {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.game-options-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: rgba(0, 0, 0, 0.2);
-    border-radius: 12px;
-    padding: 16px;
-    border: 1px solid #444;
-}
-
+.game-options-wrapper { display: flex; flex-direction: column; gap: 12px; }
+.game-options-row { display: flex; justify-content: space-between; align-items: center; background-color: rgba(0, 0, 0, 0.2); border-radius: 12px; padding: 16px; border: 1px solid #444; }
 .game-options-text {
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--dark-black);
-    background-color: var(--main-yellow);
-    border-radius: 8px;
-    height: 40px;
-    display: inline-flex; 
-    align-items: center;
-    justify-content: center;
-    padding: 0 16px;
-    white-space: nowrap;
-    text-align: center;
-    
-    /* ВИПРАВЛЕНО: Фіксована ширина для однакового вигляду */
-    width: 240px; 
+    font-size: 1rem; font-weight: 700; color: var(--dark-black); background-color: var(--main-yellow);
+    border-radius: 8px; height: 40px; display: inline-flex; align-items: center; justify-content: center;
+    padding: 0 16px; white-space: nowrap; text-align: center; width: 240px;
 }
-
-.game-options-buttons {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 10px;
-    justify-content: flex-end; /* Кнопки притиснуті до правого краю */
-    flex-grow: 1; /* Займають весь вільний простір */
-}
-
-/* Кнопки вибору літери (С, Ш, Р) */
+.game-options-buttons { display: flex; flex-wrap: wrap; gap: 10px; justify-content: flex-end; flex-grow: 1; }
 .letter-btn {
-    font-family: var(--font-family);
-    font-size: 1rem;
-    font-weight: 700;
-    color: var(--dark-black);
-    background-color: var(--main-yellow);
-    border: none;
-    border-radius: 8px;
-    width: 40px;
-    height: 40px;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    text-decoration: none;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    font-family: var(--font-family); font-size: 1rem; font-weight: 700; color: var(--dark-black); background-color: var(--main-yellow);
+    border: none; border-radius: 8px; width: 40px; height: 40px; cursor: pointer; transition: all 0.2s ease; text-decoration: none;
+    display: flex; justify-content: center; align-items: center;
 }
+.letter-btn:hover { background-color: var(--white); transform: scale(1.1); }
 
-.letter-btn:hover {
-    background-color: var(--white);
-    transform: scale(1.1);
-}
-
-/* --- СТАТИЧНИЙ КОНТЕНТ (about.html) --- */
-.content-section {
-    background-color: var(--dark-black);
-    color: var(--light-gray);
-    padding: 32px;
-    border-radius: 16px;
-}
-
-.content-section h1, .content-section h2 {
-    color: var(--main-yellow);
-    margin-bottom: 16px;
-}
-
-.content-section p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    margin-bottom: 24px;
-}
-
-.social-links {
-    display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
-}
-
-.social-link {
-    display: inline-block;
-    padding: 12px 20px;
-    border-radius: 50px;
-    text-decoration: none;
-    font-weight: 600;
-    transition: all 0.2s ease;
-    border: 2px solid transparent;
-}
-
-.social-link:hover {
-    transform: scale(1.03);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-}
-
-/* Соц. кнопки з кольорами */
+.content-section { background-color: var(--dark-black); color: var(--light-gray); padding: 32px; border-radius: 16px; }
+.content-section h1, .content-section h2 { color: var(--main-yellow); margin-bottom: 16px; }
+.content-section p { font-size: 1.1rem; line-height: 1.6; margin-bottom: 24px; }
+.social-links { display: flex; gap: 16px; flex-wrap: wrap; }
+.social-link { display: inline-block; padding: 12px 20px; border-radius: 50px; text-decoration: none; font-weight: 600; transition: all 0.2s ease; border: 2px solid transparent; }
+.social-link:hover { transform: scale(1.03); box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
 .social-link.telegram { background-color: #26A5E4; color: var(--white); }
 .social-link.instagram { background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888); color: var(--white); }
 .social-link.facebook { background-color: #1877F2; color: var(--white); }
 
+footer { background-color: var(--dark-black); color: var(--light-gray); padding: 20px; text-align: center; font-size: 0.9rem; margin: 16px auto; } /* margin auto */
 
-/* --- ФУТЕР (ПІДВАЛ) --- */
-footer {
-    background-color: var(--dark-black);
-    color: var(--light-gray);
-    padding: 20px;
-    text-align: center;
-    font-size: 0.9rem;
-    margin-top: 16px; /* Відступ зверху */
-    margin-bottom: 16px; /* Відступ знизу */
-}
-
-/* --- АДАПТИВНІСТЬ (Media Queries) --- */
-
-/* Планшети і вище */
-@media (min-width: 769px) {
-    /* Показуємо назву сайту (Логопедичні ігри) */
-    .site-title {
-        display: inline-block;
-    }
-}
-
-/* Планшети і мобільні */
+@media (min-width: 769px) { .site-title { display: inline-block; } }
 @media (max-width: 768px) {
-    
-    header {
-        height: auto; /* Висота автоматична для моб. меню */
-        flex-wrap: wrap; /* Дозволяє меню переноситись */
-        padding: 12px 16px;
-        /* top: 12px; - Видалено */
-        width: calc(100% - 24px); /* Ширина з відступами */
-        margin-top: 12px; /* Зменшений відступ */
-    }
-    
-    /* Показуємо кнопку бургера */
-    .menu-toggle {
-        display: block; 
-    }
-    
-    /* Ховаємо навігацію */
-    nav#main-nav {
-        display: none; 
-        flex-direction: column;
-        width: 100%;
-        text-align: center;
-        margin-top: 12px;
-        animation: fadeIn 0.3s ease;
-    }
-    
-    /* Стиль для активної (відкритої) навігації */
-    nav#main-nav.nav-active {
-        display: flex; 
-    }
-    
-    .nav-link {
-        border: none;
-        border-top: 1px solid #444; /* Розділювач */
-        border-radius: 0;
-        width: 100%;
-    }
-    
-    .nav-link.active-page {
-        background-color: transparent;
-        color: var(--white);
-    }
-    
-    /* Опції гри на мобільних */
-    .game-options-row {
-        flex-direction: column; /* Складаємо у стовпчик */
-        align-items: flex-start;
-        gap: 16px;
-    }
-    .game-options-text {
-        width: 100%; /* На всю ширину */
-    }
-    .game-options-buttons {
-        /* Робимо гнучку сітку для кнопок літер */
-        display: grid;
-        grid-template-columns: repeat(auto-fill, 40px);
-        justify-content: space-between;
-        width: 100%;
-    }
+    header { height: auto; flex-wrap: wrap; padding: 12px 16px; margin-top: 12px; width: calc(100% - 24px); }
+    .menu-toggle { display: block; }
+    nav#main-nav { display: none; flex-direction: column; width: 100%; text-align: center; margin-top: 12px; animation: fadeIn 0.3s ease; }
+    nav#main-nav.nav-active { display: flex; }
+    .nav-item { border: none; border-top: 1px solid var(--border-subtle); border-radius: 0; width: 100%; }
+    .nav-item.active-page { background-color: transparent; color: var(--white); }
+    .game-options-row { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .game-options-text { width: 100%; }
+    .game-options-buttons { display: grid; grid-template-columns: repeat(auto-fill, 40px); justify-content: space-between; width: 100%; }
 }
-
-/* Маленькі мобільні */
 @media (max-width: 468px) {
-    .game-grid-section {
-        padding: 16px;
-    }
-    .game-grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
-        gap: 16px;
-    }
-    .game-description-box {
-        padding: 16px;
-    }
+    .game-grid-section { padding: 16px; }
+    .game-grid-container { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 16px; }
+    .game-description-box { padding: 16px; }
 }
 
-/* Анімація появи */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+.page-section { display: none; }
+.page-section.active { display: block; animation: fadeInPage 0.3s ease-in-out; }
+@keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }html.no-scroll, body.no-scroll { overflow: hidden; height: 100dvh; }
+body.in-game footer { display: none; }
+
+/* Відступи та зручні зони натискання */
+.nav-item { min-height: 44px; line-height: 1; display: inline-flex; align-items: center; }
+.game-button, .letter-btn { min-height: 44px; }
+.letter-btn { min-width: 40px; }
+.game-button, .letter-btn { min-height: 44px; }
+.letter-btn { min-width: 40px; }
+
+/* Відступи плаваючих контейнерів на малих екранах */
+@media (max-width: 768px) {
+  .floating-box { width: calc(100% - 24px); }
+  main { padding: 12px 0; }
 }
 
-/* --- СТИЛІ ДЛЯ SPA-РОУТЕРА --- */
-
-/* Ховаємо всі "сторінки" за замовчуванням */
-.page-section {
-    display: none;
+/* Ущільнення макета опцій на десктопі */
+@media (min-width: 1024px) {
+  .game-options-row { padding: 14px 16px; }
 }
 
-/* Показуємо тільки активну "сторінку" */
-.page-section.active {
-    display: block;
-    animation: fadeInPage 0.3s ease-in-out;
+@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+.letter-btn:focus-visible { outline: 3px solid var(--white); outline-offset: 3px; }
+.letter-btn[aria-disabled="true"] { opacity: 0.45; cursor: not-allowed; filter: grayscale(0.25); }
+.letter-btn[aria-disabled="true"]:hover { background-color: var(--main-yellow); transform: none; }
+
+/* Візуально прихований (доступний) */
+.visually-hidden {
+  position: absolute !important;
+  width: 1px; height: 1px;
+  padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 1px 1px);
+  white-space: nowrap; border: 0;
+}
+.view-section.is-hidden,
+.is-hidden {
+  display: none !important;
 }
 
-/* Анімація появи сторінки */
-@keyframes fadeInPage {
-    from { opacity: 0; }
-    to { opacity: 1; }
+
+/* === Стилі сторінки "Гра 1" (об'єднано з game1.css) === *//*
+  ФАЙЛ: css/game1.css
+  ОПИС: Стилі лише для сторінки "Гри 1".
+*/
+/* === Токени теми «Гра 1» (редагуйте тут для зміни кольорів) === */
+:root {
+  --g1-grey: #777;
+  --g1-border: #555;
+  --g1-success: #2ECC71;
+  --g1-error: #E74C3C;
+  --g1-focus: #3498DB;
 }
+
+/* === Контейнер гри === */
+.game-container {
+    background-color: var(--dark-black); color: var(--light-gray); padding: 24px;
+    border-radius: 16px; position: relative; display: flex; flex-direction: column;
+    min-height: calc(100dvh - 40px - var(--header-height)); overflow: hidden;
+}
+
+/* === Кнопка «Назад» === */
+.back-button {
+    position: absolute; top: 16px; left: 16px; width: 44px; height: 44px;
+    background-color: rgba(255, 255, 255, 0.1); color: var(--main-yellow); border-radius: 50%;
+    display: flex; justify-content: center; align-items: center; text-decoration: none;
+    transition: all 0.2s ease; z-index: 100;
+}
+.back-button:hover { background-color: var(--main-yellow); color: var(--dark-black); transform: scale(1.1); }
+.back-button svg { width: 24px; height: 24px; }
+
+/* === Індикатор гри === */
+.game-indicator {
+    position: absolute; top: 16px; right: 16px; width: 44px; height: 44px;
+    border-radius: 50%; border: 4px solid var(--white);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease; z-index: 100;
+}
+.game-indicator.grey { background-color: var(--g1-grey); box-shadow: 0 0 10px var(--g1-grey); }
+.game-indicator.red { background-color: var(--g1-error); box-shadow: 0 0 20px var(--g1-error); }
+.game-indicator.green { background-color: var(--g1-success); box-shadow: 0 0 20px var(--g1-success); }
+
+/* === Ігрове поле === */
+#game-board { position: relative; flex-grow: 1; display: flex; flex-direction: column; min-height: 600px; margin-top: 40px; width: 100%; touch-action: none; }
+#game-message { text-align: center; font-size: 1.2rem; color: var(--main-yellow); padding: 10px; background-color: rgba(0, 0, 0, 0.3); border-radius: 12px; margin-bottom: 10px; min-height: 40px; }
+
+/* === Зона спавну === */
+#wagon-spawn-area {
+    width: 100%; flex-grow: 1; /* ВАЖЛИВО: Займає вільне місце, штовхає потяг вниз */
+    position: relative; background-color: rgba(0, 0, 0, 0.2); border: 2px dashed var(--g1-border);
+    border-radius: 12px; min-height: 250px; /* Мінімальна висота */
+    transition: opacity 0.3s ease;
+}
+
+/* === Зона потягу === */
+.train-area {
+    display: flex; align-items: flex-end; /* Вирівнювання по низу */
+    gap: 10px; padding: 10px; background-color: rgba(0, 0, 0, 0.2); border-radius: 12px;
+    border-top: 4px solid var(--g1-grey); border-bottom: 4px solid var(--g1-grey); flex-wrap: nowrap; margin-top: 10px;
+    transition: opacity 0.3s ease, filter 0.3s ease;
+}
+
+.train-cabin { flex-shrink: 0; position: relative; display: flex; align-items: flex-end; }
+.train-cabin img { width: 100px; height: 100px; display: block; }
+#cabin-letter { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); font-size: 3rem; font-weight: 700; color: var(--white); text-shadow: 0 0 10px var(--dark-black); user-select: none; }
+
+#train-slots { display: flex; flex-grow: 1; gap: 10px; flex-wrap: wrap; align-content: flex-start; min-height: 105px; } /* Стабільна висота */
+
+.train-slot { width: 100px; height: 100px; border-radius: 12px; border: 3px dashed var(--main-yellow); background-color: rgba(255, 214, 10, 0.1); opacity: 0.7; transition: background-color 0.2s ease, opacity 0.2s ease; }
+.train-slot.can-accept { background-color: rgba(255, 214, 10, 0.4); opacity: 1; }
+
+/* === Вагони === */
+.wagon-card {
+    width: 100px; height: 100px; border-radius: 12px; background-color: var(--white); border: 3px solid var(--dark-black);
+    transition: all 0.2s ease; display: flex; flex-direction: column; justify-content: space-between; align-items: center;
+    padding: 4px; overflow: hidden; position: absolute; top: 0; left: 0; user-select: none; z-index: 10;
+}
+.wagon-image { width: 100%; height: 70px; object-fit: contain; margin-top: 2px; }
+.wagon-label { width: 100%; background-color: var(--dark-black); color: var(--white); font-size: 0.8rem; font-weight: 600; text-align: center; padding: 2px 0; flex-shrink: 0; }
+
+/* === Вагони === */
+.wagon-card.dragging { opacity: 0.8; z-index: 1000; transform: scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.5); }
+/* === Вагони === */
+.wagon-card.locked { border-color: var(--g1-success); box-shadow: 0 0 10px var(--g1-success); z-index: 5; }
+.hidden { display: none !important; opacity: 0 !important; }
+/* === Зона потягу === */
+.train-area.faded { opacity: 0.3; filter: blur(2px); }
+
+.game-button {
+    font-family: var(--font-family); font-size: 1.2rem; font-weight: 700; color: var(--dark-black); background-color: var(--main-yellow);
+    border: 2px solid var(--dark-black); border-radius: 12px; padding: 12px 24px; cursor: pointer; transition: all 0.2s ease;
+    margin: 20px auto 0 auto; display: block; position: relative; z-index: 50;
+}
+.game-button:hover { background-color: var(--white); transform: scale(1.03); }
+
+/* === Питання/Вікторина === */
+.questions-section { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 16px; background-color: rgba(0, 0, 0, 0.2); border-radius: 12px; margin-top: 10px; }
+#question-text { font-size: 1.2rem; color: var(--white); text-align: center; }
+#answer-options { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.answer-btn {
+    font-family: var(--font-family); font-size: 1rem; font-weight: 600; color: var(--dark-black); background-color: var(--white);
+    border: 2px solid var(--white); border-radius: 8px; padding: 10px 16px; cursor: pointer; transition: all 0.2s ease;
+}
+.answer-btn:not(:disabled):hover { background-color: var(--main-yellow); border-color: var(--main-yellow); }
+.answer-btn.correct { background-color: var(--g1-success); border-color: var(--g1-success); color: var(--white); }
+.answer-btn.incorrect { background-color: var(--g1-error); border-color: var(--g1-error); color: var(--white); animation: shake 0.3s; }
+@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+
+/* === Екран перевірки пам’яті === */
+.recall-overlay { position: absolute; inset: 0; background-color: rgba(30, 30, 30, 0.95); z-index: 200; display: flex; flex-direction: column; align-items: center; padding: 20px; overflow-y: auto; }
+/* === Екран перевірки пам’яті === */
+.recall-overlay h2 { color: var(--main-yellow); margin-top: 40px; margin-bottom: 20px; text-align: center; font-size: 1.4rem; }
+.recall-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; max-width: 400px; width: 100%; }
+.recall-wagon { position: static !important; transform: none !important; width: 100%; height: auto; aspect-ratio: 1 / 1; cursor: pointer; opacity: 0.7; transition: opacity 0.2s ease, border-color 0.2s ease, transform 0.2s ease; }
+.recall-wagon:hover { opacity: 1; }
+.recall-wagon.selected { opacity: 1; border-color: var(--g1-focus); box-shadow: 0 0 15px var(--g1-focus); transform: scale(1.05) !important; }
+.recall-feedback { margin-top: 16px; font-size: 1.1rem; font-weight: 600; text-align: center; }
+.recall-feedback.correct { color: var(--g1-success); }
+.recall-feedback.incorrect { color: var(--g1-error); }
+.recall-submit-btn, .play-again-btn { margin-top: auto; margin-bottom: 10px; padding: 10px 20px; font-size: 1.1rem; }
+
+@media (max-width: 768px) {
+    /* === Контейнер гри === */
+.game-container { padding: 16px; min-height: 500px; }
+    .train-slot, .wagon-card, .train-cabin img { width: 80px; height: 80px; }
+    .train-cabin { width: 80px; }
+    #cabin-letter { font-size: 2.5rem; }
+    .wagon-image { height: 55px; }
+    .wagon-label { font-size: 0.7rem; }
+    #train-slots { min-height: 85px; }
+    #game-message { font-size: 1rem; padding: 8px; min-height: 30px; }
+    #game-board { margin-top: 50px; min-height: 400px; }
+    .recall-overlay h2 { margin-top: 30px; font-size: 1.2rem; }
+    .recall-grid { gap: 5px; }
+}
+@media (max-width: 480px) {
+    .train-slot, .wagon-card, .train-cabin img { width: 60px; height: 60px; }
+    .train-cabin { width: 60px; }
+    #cabin-letter { font-size: 2rem; }
+    .wagon-image { height: 40px; }
+    .wagon-label { font-size: 0.6rem; padding: 1px 0; }
+    #train-slots { gap: 5px; min-height: 65px; }
+    .train-area { gap: 5px; }
+    #answer-options { gap: 5px; }
+    .answer-btn { font-size: 0.9rem; padding: 8px 12px; }
+}
+
+@media (max-height: 700px) {
+    .train-slot, .wagon-card, .train-cabin img { width: 80px; height: 80px; }
+    #train-slots { min-height: 85px; }
+    #game-board { min-height: 420px; }
+}
+@media (max-height: 560px) {
+    .train-slot, .wagon-card, .train-cabin img { width: 60px; height: 60px; }
+    .wagon-image { height: 40px; }
+    #train-slots { min-height: 65px; gap: 6px; }
+    #game-board { min-height: 360px; }
+}
+.game-button, .answer-btn { min-height: 44px; }
+
+/* ===================== СТАНИ ГРИ (ВИДИМІСТЬ) ===================== */
+/* Базово ховаємо секції, які керуються станами */
+.game-container .questions-section,
+.game-container #recall-overlay { display: none; }
+
+/* Стан: Збірка */
+.game-container.is-assembling #wagon-spawn-area { display: block; }
+.game-container.is-assembling .train-area { opacity: 1; filter: none; }
+
+/* Стан: Питання */
+.game-container.is-quiz #wagon-spawn-area { visibility: hidden; pointer-events: none; }
+.game-container.is-quiz .train-area { opacity: 0.3; filter: blur(2px); }
+.game-container.is-quiz .questions-section { display: flex; }
+
+/* Стан: Перевірка пам'яті */
+.game-container.is-recall #wagon-spawn-area { visibility: hidden; pointer-events: none; }
+.game-container.is-recall .train-area { opacity: 1; filter: none; }
+.game-container.is-recall #recall-overlay { display: flex; }
+
+/* Стан: Завершено (оверлей залишається видимим) */
+.game-container.is-finished #recall-overlay { display: flex; }
+
+/* ===================== НАКЛАДАННЯ ТА АВТОСКЕЙЛ ===================== */
+/* Змінні масштабу для гри */
+/* === Контейнер гри === */
+.game-container {
+  --wagon-size: clamp(60px, 12vw, 100px);
+  --cabin-size: clamp(60px, 12vw, 100px);
+  --train-gap: clamp(5px, 1.2vw, 10px);
+  padding-bottom: calc(24px + env(safe-area-inset-bottom));
+}
+
+/* Використання змінних для розмірів */
+.game-container .train-cabin img { width: var(--cabin-size); height: var(--cabin-size); }
+.game-container .train-slot, .game-container .wagon-card { width: var(--wagon-size); height: var(--wagon-size); }
+.game-container .wagon-image { height: calc(var(--wagon-size) * 0.55); }
+.game-container #train-slots { min-height: calc(var(--wagon-size) + 5px); }
+.game-container .train-area { gap: var(--train-gap); }
+
+/* Z-index шарів */
+.game-container .questions-section { position: relative; z-index: 120; }
+.game-container .recall-overlay { z-index: 300; }
+
+/* Блокування взаємодії з потягом під час вікторини */
+.game-container.is-quiz .train-area,
+.game-container.is-quiz .wagon-card { pointer-events: none !important; }
+
+/* Перевизначення змінних для низьких екранів по висоті */
+@media (max-height: 700px) {
+  /* === Контейнер гри === */
+.game-container { --wagon-size: 80px; --cabin-size: 80px; --train-gap: 8px; }
+}
+@media (max-height: 560px) {
+  /* === Контейнер гри === */
+.game-container { --wagon-size: 60px; --cabin-size: 60px; --train-gap: 6px; }
+}
+
+/* Recall controls layout and focus styles */
+.recall-controls { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
+.recall-wagon[role="button"] { outline: none; }
+.recall-wagon[role="button"]:focus-visible { box-shadow: 0 0 0 3px var(--g1-focus); }
+.recall-wagon.selected[role="button"] { outline: none; }
+/* Game message spacing */
+#game-message { margin-bottom: var(--space-3); padding: 10px 12px; }
+
+/* Train area spacing and wrapping tweaks */
+/* === Зона потягу === */
+.train-area { gap: var(--train-gap); padding: 10px; }
+#train-slots { gap: var(--train-gap); }
+
+/* Controls sizing */
+.game-button { min-width: 140px; }
+.recall-controls .game-button { min-width: 160px; }
+
+/* Smaller phones */
+@media (max-width: 360px) {
+  .game-button { min-width: 120px; padding: 10px 14px; font-size: 1rem; }
+  .recall-controls { gap: 8px; }
+}/* ==== Екран вікторини без зсувів верстки ==== */
+.game-container.is-quiz #game-board { position: relative; }
+.game-container.is-quiz .questions-section {
+  display: flex;
+  position: absolute;
+  inset: 0;
+  z-index: 200;
+  margin-top: 0; /* prevent flow shift */
+  padding: 24px 16px; /* comfortable content area */
+  background: rgba(0, 0, 0, 0.35);
+  backdrop-filter: blur(2px);
+  align-items: center;
+  justify-content: center;
+}
+/* Position memory-check button as non-shifting overlay inside board */
+.game-container .memory-check-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 180;
+}
+/* Overlay next-stage button to prevent layout shifts */
+.game-container .next-stage-btn {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  margin: 0;
+  z-index: 180;
+}
+/* Keep spawn area visible during quiz, place questions inside it */
+.game-container.is-quiz #wagon-spawn-area { visibility: visible; pointer-events: auto; }
+.game-container.is-quiz #wagon-spawn-area { position: relative; }
+.game-container.is-quiz #wagon-spawn-area .questions-section { position: absolute; inset: 0; z-index: 200; margin-top: 0; padding: 24px 16px; background: rgba(0,0,0,0.35); backdrop-filter: blur(2px); display: flex; align-items: center; justify-content: center; }
+/* Move Next button into spawn area (no layout shift) */
+/* === Зона спавну === */
+#wagon-spawn-area .next-stage-btn { position: absolute; bottom: 16px; left: 50%; transform: translateX(-50%); z-index: 210; }
+/* Hide train and board wagons during recall (so child cannot peek) */
+.game-container.is-recall #game-board .wagon-card { visibility: hidden; }
+.game-container.is-recall .train-area { visibility: hidden; }
+/* Center CTA buttons in spawn area */
+/* === Зона спавну === */
+#wagon-spawn-area { position: relative; }
+/* === Зона спавну === */
+#wagon-spawn-area .next-stage-btn,
+/* === Зона спавну === */
+#wagon-spawn-area .memory-check-btn {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+  z-index: 210;
+  min-width: 220px;
+}
+/* === Зона спавну === */
+#wagon-spawn-area .next-stage-btn { font-size: 1.2rem; }
+/* === Зона спавну === */
+#wagon-spawn-area .memory-check-btn { font-size: 1.2rem; }
+/* Improve recall grid visibility and spacing */
+.recall-grid { margin-top: 12px; }
+/* === Екран перевірки пам’яті === */
+.recall-overlay { align-items: center; }
+@media (min-width: 520px) { .recall-grid { grid-template-columns: repeat(3, 120px); max-width: none; } }
+/* ===== Recall layout: centering and sizing overrides ===== */
+/* === Екран перевірки пам’яті === */
+.recall-overlay { --recall-card-size: clamp(92px, 14vw, 140px); --recall-gap: clamp(8px, 1.6vw, 16px); padding-left: 24px; padding-right: 24px; }
+/* === Екран перевірки пам’яті === */
+.recall-overlay .recall-grid {
+  width: auto; /* override older width:100% */
+  grid-template-columns: repeat(3, var(--recall-card-size));
+  gap: var(--recall-gap);
+  justify-content: center; /* center tracks */
+  justify-items: center;   /* center items */
+  margin: 12px auto 0 auto;
+}
+/* === Екран перевірки пам’яті === */
+.recall-overlay .recall-wagon { width: var(--recall-card-size); height: var(--recall-card-size); }
+/* === Екран перевірки пам’яті === */
+.recall-overlay .recall-wagon .wagon-image { height: calc(var(--recall-card-size) * 0.55); }
+
+/* Center and scale the recall controls */
+.recall-controls { margin-top: 24px; justify-content: center; }
+.recall-controls .game-button { min-width: clamp(140px, 22vw, 220px); }
+
+/* Fewer columns on narrow screens */
+@media (max-width: 640px) { .recall-overlay .recall-grid { grid-template-columns: repeat(2, var(--recall-card-size)); } }
+@media (max-width: 380px) { .recall-overlay .recall-grid { grid-template-columns: repeat(2, clamp(84px, 34vw, 120px)); } }
+
 
